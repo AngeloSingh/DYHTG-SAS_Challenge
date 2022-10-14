@@ -73,7 +73,7 @@ Student ID,Name,Age,Sex,Year of Study,Subject,Height,Hair colour,Societies
 2861294M,Georgia Moore,19,Male,1,Business,163,#b5defc,['LGBTQ+ Students Association']
 2525914R,Barry Robinson,25,Male,4,Business,171,#ffcabf,"['Marxist Society', 'Back to Yoga Society', 'Bad Movie Society', 'Sexpression']"
 2546112P,Eric Parkin,21,Male,4,Pharmacy,170,#22b7b2,N/A
-2712324G,Jonny Craig,21,Male,3,Chemistry,178,#85d13e,['Skate Society', 'Motorcycling Society']
+2712324G,Jonny Craig,21,Male,3,Chemistry,178,#85d13e,"['Skate Society', 'Motorcycling Society']"
 2526191H,Mohammed Harvey,24,Male,4,Computing Science,162,#ff21f0,N/A
 2678631W,Sandra Wilson,25,Female,3,Philosophy,165,#b1ecef,"['Pole Dancing Club', 'Italian Society']"
 2495155L,Mohamed Lloyd,23,Male,5,Medicine,166,#cfe05e,"['Extinction Rebellion', 'Volleyball Society', 'Back to Yoga Society', 'Italian Society']"
