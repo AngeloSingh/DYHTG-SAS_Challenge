@@ -1,0 +1,107 @@
+<style> 
+#map {
+    height: 400px; 
+    width: 100%; 
+   } 
+</style> 
+<h3>Campus Map</h3>
+<div id="map">  
+    <p>bruh</p>
+</div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
+</script>  
+
+<script>   
+  
+  const getLocationData = async url => {
+    const response = await fetch(url)
+    return response.json()
+  }    
+   
+  function addInfoWindow(name , description) {  
+    console.log("Creating"); 
+    let infoWindow =  new google.maps.InfoWindow({
+        content: `<h3> ${name} </h3>   <p> ${description} </p>`,
+    })
+    return infoWindow;
+  }
+ 
+  function addMarker(building , map) { 
+    let marker = new google.maps.Marker({
+        position: new google.maps.LatLng(building.position.lat, building.position.lng),
+        map: map,  
+        title : building.name,    
+    });  
+      
+    let infoWindow = addInfoWindow(building.name , building.description); 
+
+    // marker.addListener("click", () => {  
+    //     infoWindow.open({
+    //     anchor: marker,
+    //     map,
+    //     ariaLabel: name,
+    //     });
+    // }); 
+     
+    return {marker : marker , infoWindow : infoWindow , name : name}
+}
+ 
+
+  async function initMap() { 
+
+    var glasgow = {
+        lat: 55.872883,  
+        lng: -4.291279,
+    }; 
+
+    var map = new google.maps.Map(
+        document.getElementById('map'), {
+            zoom: 17,
+            center: glasgow
+        });
+    
+     
+    let data = await getLocationData('http://localhost:3000/getlocations');   
+    data = JSON.parse(data);  
+    let markers = []; 
+
+    for (i = 0 ; i < data.length ; i++) {  
+        let buildingOld = data[i];  
+        buildingOld["Geolocation"] = buildingOld["Geolocation"].replace('{' , '').replace('}' , '').split(" "); 
+        let buildingNew = {  
+            name : buildingOld["Building Name"],
+            position : { 
+                lat : parseFloat(buildingOld["Geolocation"][0]), 
+                lng : parseFloat(buildingOld["Geolocation"][1]),
+            }, 
+            openingTimes : buildingOld["Opening Times"],  
+            description : buildingOld["Description"],
+        }  
+         
+        
+        markers.push(addMarker(buildingNew , map));
+    }  
+     
+    for (i = 0 ; i < markers.length ; i++) {  
+        let marker = markers[i];
+        marker.marker.addListener("click", () => {  
+            console.log("click")
+            for (i = 0 ; i < markers.length ; i++) { 
+                let subMarker = markers[i].infoWindow; 
+                subMarker.close();
+            } 
+
+            marker.infoWindow.open({
+                anchor: marker.marker,
+                map,
+                ariaLabel: marker.name,
+        });
+    }); 
+    }
+     
+    
+
+ 
+}
+</script>
