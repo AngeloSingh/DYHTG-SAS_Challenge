@@ -18,6 +18,8 @@ app.get("/" , (request,response) => {
 }); 
 
 //Reads data from csv files and converts them to json files and will be stored in json_files folder
+//checking commit account
+
 jsonfiles=[]
 for (let i = 0; i < csvfilepaths.length; i++){
     jsonfiles[i]=csvfilepaths[i].replace(".csv",".json")
