@@ -1,15 +1,12 @@
 const express = require("express");   
 const path = require('path');
 const csvtojson = require('csvtojson');
-const fs = require('fs'); 
+const fs = require('fs');  
 require('dotenv').config({ path: path.join(__dirname+'/secret.env') });
- 
 const csvfilepaths= ["security_logs.csv","people_data.csv","location_data.csv"]
 const app = express();   
 const apiKey = process.env.APIKEY; 
-const PORT = 3000;  
-
-
+const PORT = 3000;   
  
 app.get("/campusmap" , (request,response) => { 
     response.sendFile(path.join(__dirname+'/html/campusmap.html'));
@@ -24,7 +21,12 @@ app.get("/getlocations" , (request, response) => {
         response.json(jsonString);
       }); 
     }); 
+      
      
+app.get("/gettime" , (request , response) => { 
+    console.log("getting time");  
+    console.log(request.query);
+});
 
     
  
