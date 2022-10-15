@@ -96,7 +96,28 @@ input[type="range"] {
 <h3>Campus Map</h3>  
 <button onclick="sendTimes()">Click to Update</button> 
 <button id = "toggle-heatmap">Toggle Heatmap</button> 
-<input id = "change-radius" type="range" value="20" min="0" max="100" oninput = "changeRadius()"/>
+<input id = "change-radius" type="range" value="20" min="0" max="100" oninput = "changeRadius()"/> 
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Locations
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a value = "0" class="dropdown-item" href="#">Boyd Orr Building</a> 
+        <a value = "1" class="dropdown-item" href="#">James Watt Building</a> 
+        <a value = "2" class="dropdown-item" href="#">Adam Smith Building</a> 
+        <a value = "3" class="dropdown-item" href="#">Main Building</a> 
+        <a value = "4" class="dropdown-item" href="#">Wolfson Medical Building</a> 
+        <a value = "5" class="dropdown-item" href="#">Glasgow University Union</a> 
+        <a value = "6" class="dropdown-item" href="#">The Hive</a> 
+        <a value = "7" class="dropdown-item" href="#">Sir Alwyn Williams Building</a> 
+        <a value = "8" class="dropdown-item" href="#">Library</a> 
+        <a value = "9" class="dropdown-item" href="#">Queen Margaret Union</a> 
+        <a value = "10" class="dropdown-item" href="#">St Andrews Building</a> 
+        <a value = "11" class="dropdown-item" href="#">Kelvingrove Park</a> 
+        <a value = "12" class="dropdown-item" href="#">Joseph Black Building</a> 
+        <a value = "13" class="dropdown-item" href="#">Kelvin Building</a>
+    </div>
+  </div>
 <div class="range_container">
     <div class="sliders_control">
         <input id="fromSlider" type="range" value="0" min="0" step = "15" max="1439"/>
@@ -114,21 +135,14 @@ input[type="range"] {
     </div>
 </div> 
 <div id="map">  
-</div>  
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Locations
-    </button>
-    <div id = "locations" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    </div>
-  </div> 
-
-<!-- <div class="container text-center">
-    <div id = "row-of-columns" class="row">
-      
-    </div>
-  </div>  -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</div>   
+<div class = "container text-center">  
+    <div id = "profiles"  class="row">
+      </div>
+</div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
  
 <script async
   src="https://maps.googleapis.com/maps/api/js?key=&libraries=visualization&callback=initMap">
@@ -138,7 +152,7 @@ input[type="range"] {
 
 <script>   
 
-  var timeStartG; 
+  var timeStart; 
   var timeEndG;  
   var buildings = new Object(); 
   var map; 
@@ -146,7 +160,42 @@ input[type="range"] {
   
   document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);  
   document.getElementById("change-radius").addEventListener("click", changeRadius);
+  document.querySelectorAll(".dropdown-item").forEach((element) => {  
+    let value = element.value;
+    element.addEventListener("click" , (element) => pickLocation(element.target.attributes.value.value))}); 
+     
+  function pickLocation(value) {     
+    value = parseInt(value);
+    
+    
+    let whereToAdd = document.getElementById("profiles"); 
+    whereToAdd.innerHTML = '';
+    for (i = 0 ; i < peopleAtLocation.length ; i++) { 
+        let currentBuilding = peopleAtLocation[i]; 
+        if (i == value) {  
+            for (k = 0 ; k < currentBuilding.amount ; k++) { 
+                let person = currentBuilding.people[k];  
+                console.log(person);
+                let newNode = document.createElement("div"); 
+                newNode.innerHTML = `<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">${person.name}</h5>
+    <p class="card-text">${person.timeStart} - ${person.timeEnd} </p> 
+    <p class = "card-text"><ul>  
+        <li> Age : ${person.age} </li> 
+        <li> Suject : ${person.subject} </li>
+        </ul></p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>`  
+                newNode.setAttribute("class" , "col");
+                whereToAdd.appendChild(newNode);
 
+            }
+        }
+    }
+  }
     
     function changeRadius() {  
         let value = document.getElementById("change-radius").value; 
@@ -220,14 +269,6 @@ input[type="range"] {
         markers.push(addMarker(buildingNew , map));
     }   
      
-    for (let i in buildings) { 
-        let building = buildings[i]; 
-        let option = document.createElement("a"); 
-  
-        option
-        // <a class="dropdown-item" href="#">Action</a>
-        document.getElementById("locations").appendChild();
-    }
      
     for (i = 0 ; i < markers.length ; i++) {  
         let marker = markers[i];
@@ -249,7 +290,9 @@ input[type="range"] {
        
     var peopleAtLocation = []; 
     async function sendTimes() {   
-         
+        let whereToAdd = document.getElementById("profiles"); 
+        whereToAdd.innerHTML = ''  
+        peopleAtLocation = [];
         if (heatmap != null) { 
             heatmap.setMap(null); 
         }
@@ -260,7 +303,7 @@ input[type="range"] {
                     building : building,
                     people : JSON.parse(response), 
                     amount : JSON.parse(response).length,
-                });
+                }); 
             
         }  
         console.log(peopleAtLocation); 
@@ -272,37 +315,17 @@ input[type="range"] {
             heatMapData.push({ 
                 location: new google.maps.LatLng(currentBuilding.building.position.lat , currentBuilding.building.position.lng),  
                 weight:currentBuilding.amount, 
-                radius : 100,
             });
         }   
          
-        console.log(heatMapData);
          
         heatmap = new google.maps.visualization.HeatmapLayer({
            data: heatMapData
-        }); 
-        heatmap.setMap(map);
-         
-         
-        //let whereToAdd = document.getElementById("row-of-columns")
-//         for (k = 0 ; k  < peopleAtLocation ; k++) { 
-//             let currentBuilding = peopleAtLocation[k]; 
-//             let child = document.createElement(`<div class="col"> 
-//                 ${currentBuilding.building}
-//             </div>`) 
-//             for (u = 0 ; u < currentBuilding.people.length ; u++) {  
-//                 let currentPerson = currentBuilding.people[u];  
-//                 console.log(currentPerson);
-//                 child.appendChild(document.createElement(`<div class="card" style="width: 1rem;">
-//   <div class="card-body">
-//     <h5 class="card-title">Card title</h5>
-//     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-//     <a href="#" class="btn btn-primary">Go somewhere</a>
-//   </div>
-// </div>`))
-//             } 
-//             whereToAdd.appendChild(child);
-//         }
+        });  
+ 
+        heatmap.set("radius" , document.getElementById("change-radius").value);
+        heatmap.setMap(map); 
+        
 
     }
     async function sendTime(building) { 
@@ -312,7 +335,6 @@ input[type="range"] {
     } 
       
     function calculateHourBasedOnMinutes(value) {   
-        console.log(value);
         let hours = parseInt(value / 60);  
         let minutes = value % 60;
         if (hours != 0 ) { 
