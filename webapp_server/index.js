@@ -6,7 +6,13 @@ require('dotenv').config({ path: path.join(__dirname+'/secret.env') });
 const csvfilepaths= ["security_logs.csv","people_data.csv","location_data.csv"]
 const app = express();   
 const apiKey = process.env.APIKEY; 
-const PORT = 3000;   
+const PORT = 3000;
+
+app.use(express.static("mapvis"))
+
+app.get("/socialmap", (req,res) => {
+    res.sendFile(path.join(__dirname+'/mapvis/index.html'))
+})
  
 app.get("/campusmap" , (request,response) => { 
     response.sendFile(path.join(__dirname+'/html/campusmap.html'));
