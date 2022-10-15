@@ -1,8 +1,12 @@
 <!-- Borrowed and modified code from : https://medium.com/@predragdavidovic10/native-dual-range-slider-html-css-javascript-91e778134816  -->
   
-<head> 
-    <script src="jquery-3.6.0.min.js"></script> 
-</head> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Campus Visualisation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  </head>
+
   
 <style> 
 #map {
@@ -89,7 +93,10 @@ input[type="range"] {
   z-index: 1;
 }
 </style> 
-<h3>Campus Map</h3> 
+<h3>Campus Map</h3>  
+<button onclick="sendTimes()">Click to Update</button> 
+<button id = "toggle-heatmap">Toggle Heatmap</button> 
+<input id = "change-radius" type="range" value="20" min="0" max="100" oninput = "changeRadius()"/>
 <div class="range_container">
     <div class="sliders_control">
         <input id="fromSlider" type="range" value="0" min="0" step = "15" max="1439"/>
@@ -105,15 +112,49 @@ input[type="range"] {
             <p class="form_control_container__time__input" id="toInput">23:59</p>
         </div>
     </div>
-</div>
+</div> 
 <div id="map">  
-    <p>bruh</p>
-</div>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
-</script>  
+</div>  
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Locations
+    </button>
+    <div id = "locations" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    </div>
+  </div> 
+
+<!-- <div class="container text-center">
+    <div id = "row-of-columns" class="row">
+      
+    </div>
+  </div>  -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+ 
+<script async
+  src="https://maps.googleapis.com/maps/api/js?key=&libraries=visualization&callback=initMap">
+</script>
+
+
 
 <script>   
+
+  var timeStartG; 
+  var timeEndG;  
+  var buildings = new Object(); 
+  var map; 
+  var heatmap; 
+  
+  document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);  
+  document.getElementById("change-radius").addEventListener("click", changeRadius);
+
+    
+    function changeRadius() {  
+        let value = document.getElementById("change-radius").value; 
+        changeRadiusInner(value);
+    }
+    function changeRadiusInner(value) {  
+        heatmap.set("radius", value);
+    } 
 
   const getLocationData = async url => {
     const response = await fetch(url)
@@ -121,7 +162,6 @@ input[type="range"] {
   }    
    
   function addInfoWindow(name , description) {  
-    console.log("Creating"); 
     let infoWindow =  new google.maps.InfoWindow({
         content: `<h3> ${name} </h3>   <p> ${description} </p>`,
     })
@@ -140,6 +180,10 @@ input[type="range"] {
     return {marker : marker , infoWindow : infoWindow , name : name}
 }
  
+ 
+    function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+    } 
 
   async function initMap() { 
 
@@ -148,7 +192,7 @@ input[type="range"] {
         lng: -4.291279,
     }; 
 
-    var map = new google.maps.Map(
+    map = new google.maps.Map(
         document.getElementById('map'), {
             zoom: 17,
             center: glasgow
@@ -171,10 +215,19 @@ input[type="range"] {
             openingTimes : buildingOld["Opening Times"],  
             description : buildingOld["Description"],
         }  
-         
+        buildings[i] = buildingNew; 
         
         markers.push(addMarker(buildingNew , map));
-    }  
+    }   
+     
+    for (let i in buildings) { 
+        let building = buildings[i]; 
+        let option = document.createElement("a"); 
+  
+        option
+        // <a class="dropdown-item" href="#">Action</a>
+        document.getElementById("locations").appendChild();
+    }
      
     for (i = 0 ; i < markers.length ; i++) {  
         let marker = markers[i];
@@ -193,11 +246,69 @@ input[type="range"] {
     }); 
     }    
     }  
-     
-    async function sendTime(time) { 
        
+    var peopleAtLocation = []; 
+    async function sendTimes() {   
+         
+        if (heatmap != null) { 
+            heatmap.setMap(null); 
+        }
+        for (let building in buildings) {   
+            building = buildings[building];   
+                let response = await sendTime(building.name); 
+                peopleAtLocation.push({  
+                    building : building,
+                    people : JSON.parse(response), 
+                    amount : JSON.parse(response).length,
+                });
+            
+        }  
+        console.log(peopleAtLocation); 
+         
+            let heatMapData = [];
+        for (k = 0 ; k  < peopleAtLocation.length ; k++) { 
+            let currentBuilding = peopleAtLocation[k];   
+            console.log(currentBuilding);
+            heatMapData.push({ 
+                location: new google.maps.LatLng(currentBuilding.building.position.lat , currentBuilding.building.position.lng),  
+                weight:currentBuilding.amount, 
+                radius : 100,
+            });
+        }   
+         
+        console.log(heatMapData);
+         
+        heatmap = new google.maps.visualization.HeatmapLayer({
+           data: heatMapData
+        }); 
+        heatmap.setMap(map);
+         
+         
+        //let whereToAdd = document.getElementById("row-of-columns")
+//         for (k = 0 ; k  < peopleAtLocation ; k++) { 
+//             let currentBuilding = peopleAtLocation[k]; 
+//             let child = document.createElement(`<div class="col"> 
+//                 ${currentBuilding.building}
+//             </div>`) 
+//             for (u = 0 ; u < currentBuilding.people.length ; u++) {  
+//                 let currentPerson = currentBuilding.people[u];  
+//                 console.log(currentPerson);
+//                 child.appendChild(document.createElement(`<div class="card" style="width: 1rem;">
+//   <div class="card-body">
+//     <h5 class="card-title">Card title</h5>
+//     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+//     <a href="#" class="btn btn-primary">Go somewhere</a>
+//   </div>
+// </div>`))
+//             } 
+//             whereToAdd.appendChild(child);
+//         }
 
-        await fetch(`http://localhost:3000/gettime?hours=${time.hours} + "&minutes=" + ${time.minutes}`);
+    }
+    async function sendTime(building) { 
+       
+        let response = await fetch(`http://localhost:3000/gettime?hoursStart=${timeStartG.hours}&minutesStart=${timeStartG.minutes}&hoursEnd=${timeEndG.hours}&minutesEnd=${timeEndG.minutes}&building=${building}`); 
+        return response.json();
     } 
       
     function calculateHourBasedOnMinutes(value) {   
@@ -212,77 +323,88 @@ input[type="range"] {
          
         if (hours == 24) { 
             hours = 0;
-        }
+        } 
+         
          
         if (hours < 10 && hours >= 0) { 
             hours = '0' + hours.toString();
         } else { 
             hours = hours.toString();
+        } 
+        if (minutes < 10 && minutes >= 0) { 
+            minutes = '0' + minutes.toString();
+        } else { 
+            minutes = minutes.toString();
         }
           
-        return {hours : hours , minutes : minutes.toString()}
+        return {hours : hours , minutes : minutes}
     }
  
 async function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
     const [from, to] = getParsed(fromInput, toInput);
-    fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+    fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider); 
+    let timeStart = calculateHourBasedOnMinutes(to); 
+    let timeEnd = calculateHourBasedOnMinutes(from);
     if (from > to) {
         fromSlider.value = to; 
-        let time = calculateHourBasedOnMinutes(to);
-        fromInput.innerText = time.hours + ':' + time.minutes;  
-        await sendTime(time);
+        fromInput.innerText = timeStart.hours + ':' + timeStart.minutes;  
     } else { 
         fromSlider.value = from; 
-    }
+    }  
+    timeStartG = timeStart; 
+    timeEndG = timeEnd;
 }
     
 async function controlToInput(toSlider, fromInput, toInput, controlSlider) {
     const [from, to] = getParsed(fromInput, toInput);
     fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
-    setToggleAccessible(toInput);
+    setToggleAccessible(toInput); 
+    let timeStart = calculateHourBasedOnMinutes(to); 
+    let timeEnd = calculateHourBasedOnMinutes(from);
     if (from <= to) {
         toSlider.value = to; 
-        let time = calculateHourBasedOnMinutes(to); 
-        toInput.innerText = time.hours + ':' + time.minutes; 
-        await sendTime(time);
+        toInput.innerText = timeStart.hours + ':' + timeStart.minutes; 
     } else { 
-        let time = calculateHourBasedOnMinutes(from);
-        toInput.innerText = time.hours + ':' + time.minutes; 
-        await sendTime(time);
-    }
+        toInput.innerText = timeEnd.hours + ':' + timeEnd.minutes; 
+        
+    }  
+    timeStartG = timeStart; 
+    timeEndG = timeEnd;
 }
 
 async function controlFromSlider(fromSlider, toSlider, fromInput) {
   const [from, to] = getParsed(fromSlider, toSlider);
-  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider); 
+  let timeStart = calculateHourBasedOnMinutes(to); 
+    let timeEnd = calculateHourBasedOnMinutes(from);
   if (from > to) {
     toSlider.value = to; 
-    let time = calculateHourBasedOnMinutes(to);  
-    fromInput.innerText =  time.hours + ':' + time.minutes; 
-    await sendTime(time);
+    fromInput.innerText =  timeStart.hours + ':' + timeStart.minutes; 
   } else { 
     let time = calculateHourBasedOnMinutes(from); 
-    fromInput.innerText = time.hours + ':' + time.minutes; 
-    await sendTime(time);
-  }
+    fromInput.innerText = timeEnd.hours + ':' + timeEnd.minutes; 
+  }  
+  timeStartG = timeStart; 
+  timeEndG = timeEnd;
 }
 
 async function controlToSlider(fromSlider, toSlider, toInput) {
   const [from, to] = getParsed(fromSlider, toSlider);
-  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider); 
+  let timeStart = calculateHourBasedOnMinutes(to); 
+  let timeEnd = calculateHourBasedOnMinutes(from);
   setToggleAccessible(toSlider);
   if (from <= to) {
     toSlider.value = to;
-    toInput.innerText = to; 
-    let time = calculateHourBasedOnMinutes(to);  
-    toInput.innerText = time.hours + ':' + time.minutes; 
-    await sendTime(time);
-  } else { 
-    let time = calculateHourBasedOnMinutes(from);  
-    toInput.innerText = time.hours + ':' + time.minutes; 
-    await sendTime(time);
+    toInput.innerText = to;  
+    toInput.innerText = timeStart.hours + ':' + timeStart.minutes; 
+  } else {  
+    toInput.innerText = timeEnd.hours + ':' + timeEnd.minutes; 
     toSlider.value = from;
-  }
+  }  
+   
+  timeStartG = timeStart; 
+  timeEndG = timeEnd;
 }
 
 function getParsed(currentFrom, currentTo) {
