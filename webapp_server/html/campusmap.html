@@ -1,209 +1,220 @@
 <!-- Borrowed and modified code from : https://medium.com/@predragdavidovic10/native-dual-range-slider-html-css-javascript-91e778134816  -->
-  
+<html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Campus Map Visualisation</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  </head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Map Visualisation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
 
-  
-<style>  
- 
-body { 
-  margin: 2rem;
-}
-#map {
-    height: 400px; 
-    width: 100%;  
-   }   
-    
-#update-btn { 
-  position: relative; 
-  bottom : 3rem;
-}  
- 
-#map-funcs { 
-  margin: 1rem;
-}
-   
 
-#change-radius { 
-  max-width: 20rem; 
-  position: relative; 
-  top : 0.25rem;
-}
-    
-.range_container {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  margin: 3rem auto 1rem auto;
-}
+<style>
+  body {
+    margin: 2rem;
+  }
 
-.sliders_control {
-  position: relative;
-  min-height: 25px;
-}
+  #map {
+    height: 400px;
+    width: 100%;
+  }
 
-.form_control {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  font-size: 24px;
-  color: #635a5a;
-}
+  #update-btn {
+    position: relative;
+    bottom: 3rem;
+  }
 
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  pointer-events: all;
-  width: 24px;
-  height: 24px;
-  background-color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px #C6C6C6;
-  cursor: pointer;
-}
+  #map-funcs {
+    margin: 1rem;
+  }
 
-input[type=range]::-moz-range-thumb {
-  -webkit-appearance: none;
-  pointer-events: all;
-  width: 24px;
-  height: 24px;
-  background-color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px #C6C6C6;
-  cursor: pointer;  
-}
 
-input[type=range]::-webkit-slider-thumb:hover {
-  background: #f7f7f7;
-}
+  #change-radius {
+    max-width: 20rem;
+    position: relative;
+    top: 0.25rem;
+  }
 
-input[type=range]::-webkit-slider-thumb:active {
-  box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-  -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-}
+  .range_container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 3rem auto 1rem auto;
+  }
 
-input[type="number"] {
-  color: #8a8383;
-  width: 50px;
-  height: 30px;
-  font-size: 20px;
-  border: none;
-}
+  .sliders_control {
+    position: relative;
+    min-height: 25px;
+  }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {  
-   opacity: 1;
-}
+  .form_control {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    color: #635a5a;
+  }
 
-input[type="range"] {
-  -webkit-appearance: none; 
-  appearance: none;
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  background-color: #C6C6C6;
-  pointer-events: none;
-}
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #C6C6C6;
+    cursor: pointer;
+  }
 
-#fromSlider {
-  height: 0;
-  z-index: 1;
-}
-</style>  
-<div class = "text-center">
-  <h2>Campus Map</h2>  
-</div>
-<div class="range_container">
+  input[type=range]::-moz-range-thumb {
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #C6C6C6;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    background: #f7f7f7;
+  }
+
+  input[type=range]::-webkit-slider-thumb:active {
+    box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+    -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+  }
+
+  input[type="number"] {
+    color: #8a8383;
+    width: 50px;
+    height: 30px;
+    font-size: 20px;
+    border: none;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    background-color: #C6C6C6;
+    pointer-events: none;
+  }
+
+  #fromSlider {
+    height: 0;
+    z-index: 1;
+  }
+</style>
+
+<body>
+  <div class="text-center">
+    <h2>Campus Map</h2>
+  </div>
+  <div class="range_container">
     <div class="sliders_control">
-        <input id="fromSlider" type="range" value="0" min="0" step = "15" max="1439"/>
-        <input id="toSlider" type="range" value="1439" min="0" step = "15" max="1439"/>
+      <input id="fromSlider" type="range" value="0" min="0" step="15" max="1439" />
+      <input id="toSlider" type="range" value="1439" min="0" step="15" max="1439" />
     </div>
     <div class="form_control">
-        <div class="form_control_container">
-            <div class="form_control_container__time">Time Start</div>
-            <p class="form_control_container__time__input" id="fromInput">00:00</p>
-        </div>
-        <div class="form_control_container">
-            <div class="form_control_container__time">Time End</div> 
-            <p class="form_control_container__time__input" id="toInput">23:59</p>
-        </div>
-    </div>
-</div>  
-<div id = "update-btn" class="text-center"> 
-  <button class = "btn btn-outline-secondary" onclick="sendTimes()">Click to Update Map</button>  
-  <div class="dropdown m-3">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Locations
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a value = "0" class="dropdown-item" href="#">Boyd Orr Building</a> 
-        <a value = "1" class="dropdown-item" href="#">James Watt Building</a> 
-        <a value = "2" class="dropdown-item" href="#">Adam Smith Building</a> 
-        <a value = "3" class="dropdown-item" href="#">Main Building</a> 
-        <a value = "4" class="dropdown-item" href="#">Wolfson Medical Building</a> 
-        <a value = "5" class="dropdown-item" href="#">Glasgow University Union</a> 
-        <a value = "6" class="dropdown-item" href="#">The Hive</a> 
-        <a value = "7" class="dropdown-item" href="#">Sir Alwyn Williams Building</a> 
-        <a value = "8" class="dropdown-item" href="#">Library</a> 
-        <a value = "9" class="dropdown-item" href="#">Queen Margaret Union</a> 
-        <a value = "10" class="dropdown-item" href="#">St Andrews Building</a> 
-        <a value = "11" class="dropdown-item" href="#">Kelvingrove Park</a> 
-        <a value = "12" class="dropdown-item" href="#">Joseph Black Building</a> 
-        <a value = "13" class="dropdown-item" href="#">Kelvin Building</a>
+      <div class="form_control_container">
+        <div class="form_control_container__time">Time Start</div>
+        <p class="form_control_container__time__input" id="fromInput">00:00</p>
+      </div>
+      <div class="form_control_container">
+        <div class="form_control_container__time">Time End</div>
+        <p class="form_control_container__time__input" id="toInput">23:59</p>
+      </div>
     </div>
   </div>
-</div>  
-<div class = "container text-center"id="map-func">   
-    <button class = "col m-2 btn btn-secondary" id = "toggle-heatmap">Toggle Heatmap</button>  
-    <input class = "col m-2" id = "change-radius" type="range" value="20" min="0" max="100" oninput = "changeRadius()"/>  
-</div>
-<div id="map">  
-</div>   
-<div class = "container text-center m-3">  
-    <div id = "profiles"  class="row">
+  <div id="update-btn" class="text-center">
+    <button class="btn btn-outline-secondary" onclick="sendTimes()">Click to Update Map</button>
+    <div class="dropdown m-3">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Locations
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a value="0" class="dropdown-item" href="#">Boyd Orr Building</a>
+        <a value="1" class="dropdown-item" href="#">James Watt Building</a>
+        <a value="2" class="dropdown-item" href="#">Adam Smith Building</a>
+        <a value="3" class="dropdown-item" href="#">Main Building</a>
+        <a value="4" class="dropdown-item" href="#">Wolfson Medical Building</a>
+        <a value="5" class="dropdown-item" href="#">Glasgow University Union</a>
+        <a value="6" class="dropdown-item" href="#">The Hive</a>
+        <a value="7" class="dropdown-item" href="#">Sir Alwyn Williams Building</a>
+        <a value="8" class="dropdown-item" href="#">Library</a>
+        <a value="9" class="dropdown-item" href="#">Queen Margaret Union</a>
+        <a value="10" class="dropdown-item" href="#">St Andrews Building</a>
+        <a value="11" class="dropdown-item" href="#">Kelvingrove Park</a>
+        <a value="12" class="dropdown-item" href="#">Joseph Black Building</a>
+        <a value="13" class="dropdown-item" href="#">Kelvin Building</a>
       </div>
-</div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
- 
-<script async
-  src="https://maps.googleapis.com/maps/api/js?key=&libraries=visualization&callback=initMap">
-</script>
+    </div>
+  </div>
+  <div class="container text-center" id="map-func">
+    <button class="col m-2 btn btn-secondary" id="toggle-heatmap">Toggle Heatmap</button>
+    <input class="col m-2" id="change-radius" type="range" value="20" min="0" max="100" oninput="changeRadius()" />
+  </div>
+  <div id="map">
+  </div>
+  <div class="container text-center m-3">
+    <div id="profiles" class="row">
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=&libraries=visualization&callback=initMap">
+  </script>
 
 
 
-<script>   
+  <script>
 
-  var timeStartG = {hours : 0 , minutes : 0}; 
-  var timeEndG = {hours : 23 , minutes : 59} 
-  var buildings = new Object(); 
-  var map; 
-  var heatmap; 
-  
-  document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);  
-  document.getElementById("change-radius").addEventListener("click", changeRadius);
-  document.querySelectorAll(".dropdown-item").forEach((element) => {  
-    console.log(element)
-    element.addEventListener("click" , (element) => pickLocation(element.target.attributes.value.value))}); 
-     
-  function pickLocation(value) {     
-    value = parseInt(value);
-    
-    
-    let whereToAdd = document.getElementById("profiles"); 
-    whereToAdd.innerHTML = '';
-    for (i = 0 ; i < peopleAtLocation.length ; i++) { 
-        let currentBuilding = peopleAtLocation[i]; 
-        if (i == value) {  
-            for (k = 0 ; k < currentBuilding.amount ; k++) { 
-                let person = currentBuilding.people[k];  
-                console.log(person);
-                let newNode = document.createElement("div"); 
-                newNode.innerHTML = `<div class="card m-1" style="width: 18rem;">
+    var timeStartG = { hours: 0, minutes: 0 };
+    var timeEndG = { hours: 23, minutes: 59 }
+    var buildings = new Object();
+    var map;
+    var heatmap;
+
+    document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);
+    document.getElementById("change-radius").addEventListener("click", changeRadius);
+    document.querySelectorAll(".dropdown-item").forEach((element) => {
+      console.log(element)
+      element.addEventListener("click", (element) => pickLocation(element.target.attributes.value.value))
+    });
+
+    function pickLocation(value) {
+      value = parseInt(value);
+
+
+      let whereToAdd = document.getElementById("profiles");
+      whereToAdd.innerHTML = '';
+      for (i = 0; i < peopleAtLocation.length; i++) {
+        let currentBuilding = peopleAtLocation[i];
+        if (i == value) {
+          for (k = 0; k < currentBuilding.amount; k++) {
+            let person = currentBuilding.people[k];
+            console.log(person);
+            let newNode = document.createElement("div");
+            newNode.innerHTML = `<div class="card m-1" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${person.name}</h5>
     <p class="card-text">${person.time} </p> 
@@ -211,289 +222,292 @@ input[type="range"] {
         <li> Location : ${person.location} </li> 
         </ul></p>
   </div>
-</div>`  
-                newNode.setAttribute("class" , "col");
-                whereToAdd.appendChild(newNode);
+</div>`
+            newNode.setAttribute("class", "col");
+            whereToAdd.appendChild(newNode);
 
-            }
-        }
-    }
-  }
-    
-    function changeRadius() {  
-        let value = document.getElementById("change-radius").value; 
-        changeRadiusInner(value);
-    }
-    function changeRadiusInner(value) {  
-        heatmap.set("radius", value);
-    } 
-
-  const getLocationData = async url => {
-    const response = await fetch(url)
-    return response.json()
-  }    
-   
-  function addInfoWindow(name , description) {  
-    let infoWindow =  new google.maps.InfoWindow({
-        content: `<h3> ${name} </h3>   <p> ${description} </p>`,
-    })
-    return infoWindow;
-  }
- 
-  function addMarker(building , map) { 
-    let marker = new google.maps.Marker({
-        position: new google.maps.LatLng(building.position.lat, building.position.lng),
-        map: map,  
-        title : building.name,    
-    });  
-      
-    let infoWindow = addInfoWindow(building.name , building.description); 
-     
-    return {marker : marker , infoWindow : infoWindow , name : name}
-}
- 
- 
-    function toggleHeatmap() {
-        heatmap.setMap(heatmap.getMap() ? null : map);
-    } 
-
-  async function initMap() { 
-
-    var glasgow = {
-        lat: 55.872883,  
-        lng: -4.291279,
-    }; 
-
-    map = new google.maps.Map(
-        document.getElementById('map'), {
-            zoom: 17,
-            center: glasgow
-        });
-    
-     
-    let data = await getLocationData('http://localhost:3000/getlocations');   
-    data = JSON.parse(data);  
-    let markers = []; 
-
-    for (i = 0 ; i < data.length ; i++) {  
-        let buildingOld = data[i];  
-        buildingOld["Geolocation"] = buildingOld["Geolocation"].replace('{' , '').replace('}' , '').split(" "); 
-        let buildingNew = {  
-            name : buildingOld["Building Name"],
-            position : { 
-                lat : parseFloat(buildingOld["Geolocation"][0]), 
-                lng : parseFloat(buildingOld["Geolocation"][1]),
-            }, 
-            openingTimes : buildingOld["Opening Times"],  
-            description : buildingOld["Description"],
-        }  
-        buildings[i] = buildingNew; 
-        
-        markers.push(addMarker(buildingNew , map));
-    }   
-     
-     
-    for (i = 0 ; i < markers.length ; i++) {  
-        let marker = markers[i];
-        marker.marker.addListener("click", () => {  
-            console.log("click")
-            for (i = 0 ; i < markers.length ; i++) { 
-                let subMarker = markers[i].infoWindow; 
-                subMarker.close();
-            } 
-
-            marker.infoWindow.open({
-                anchor: marker.marker,
-                map,
-                ariaLabel: marker.name,
-        });
-    }); 
-    }  
-    sendTimes();
-         
-    }  
-       
-    var peopleAtLocation = []; 
-    async function sendTimes() {   
-        let whereToAdd = document.getElementById("profiles"); 
-        whereToAdd.innerHTML = ''  
-        peopleAtLocation = [];
-        if (heatmap != null) { 
-            heatmap.setMap(null); 
-        }
-        for (let building in buildings) {   
-            building = buildings[building];   
-                let response = await sendTime(building.name); 
-                peopleAtLocation.push({  
-                    building : building,
-                    people : JSON.parse(response), 
-                    amount : JSON.parse(response).length,
-                }); 
-            
-        }  
-        console.log(peopleAtLocation); 
-         
-            let heatMapData = [];
-        for (k = 0 ; k  < peopleAtLocation.length ; k++) { 
-            let currentBuilding = peopleAtLocation[k];   
-            console.log(currentBuilding); 
-            if (currentBuilding.amount != 0) {
-            heatMapData.push({ 
-                location: new google.maps.LatLng(currentBuilding.building.position.lat , currentBuilding.building.position.lng),  
-                weight:currentBuilding.amount, 
-            }); 
           }
-        }   
-         
-         
-        heatmap = new google.maps.visualization.HeatmapLayer({
-           data: heatMapData
-        });  
- 
-        heatmap.set("radius" , document.getElementById("change-radius").value);
-        heatmap.setMap(map); 
-        
-
-    }
-    async function sendTime(building) { 
-       
-        let response = await fetch(`http://localhost:3000/gettime?hoursStart=${timeStartG.hours}&minutesStart=${timeStartG.minutes}&hoursEnd=${timeEndG.hours}&minutesEnd=${timeEndG.minutes}&building=${building}`); 
-        return response.json();
-    } 
-      
-    function calculateHourBasedOnMinutes(value) {   
-        let hours = parseInt(value / 60);  
-        let minutes = value % 60;
-        if (hours != 0 ) { 
-            minutes = value - hours*60;
-        } else { 
-            minutes = value;
-        }   
-         
-        if (hours == 24) { 
-            hours = 0;
-        } 
-         
-         
-        if (hours < 10 && hours >= 0) { 
-            hours = '0' + hours.toString();
-        } else { 
-            hours = hours.toString();
-        } 
-        if (minutes < 10 && minutes >= 0) { 
-            minutes = '0' + minutes.toString();
-        } else { 
-            minutes = minutes.toString();
         }
-          
-        return {hours : hours , minutes : minutes}
+      }
     }
- 
-async function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
-    const [from, to] = getParsed(fromInput, toInput);
-    fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider); 
-    let timeStart = calculateHourBasedOnMinutes(to); 
-    let timeEnd = calculateHourBasedOnMinutes(from);
-    if (from > to) {
-        fromSlider.value = to; 
-        fromInput.innerText = timeStart.hours + ':' + timeStart.minutes;  
-    } else { 
-        fromSlider.value = from; 
-    }  
-    timeStartG = timeStart; 
-    timeEndG = timeEnd;
-}
-    
-async function controlToInput(toSlider, fromInput, toInput, controlSlider) {
-    const [from, to] = getParsed(fromInput, toInput);
-    fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
-    setToggleAccessible(toInput); 
-    let timeStart = calculateHourBasedOnMinutes(to); 
-    let timeEnd = calculateHourBasedOnMinutes(from);
-    if (from <= to) {
-        toSlider.value = to; 
-        toInput.innerText = timeStart.hours + ':' + timeStart.minutes; 
-    } else { 
-        toInput.innerText = timeEnd.hours + ':' + timeEnd.minutes; 
-        
-    }  
-    timeStartG = timeStart; 
-    timeEndG = timeEnd;
-}
 
-async function controlFromSlider(fromSlider, toSlider, fromInput) {
-  const [from, to] = getParsed(fromSlider, toSlider);
-  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider); 
-  let timeStart = calculateHourBasedOnMinutes(to); 
-    let timeEnd = calculateHourBasedOnMinutes(from);
-  if (from > to) {
-    toSlider.value = to; 
-    fromInput.innerText =  timeStart.hours + ':' + timeStart.minutes; 
-  } else { 
-    let time = calculateHourBasedOnMinutes(from); 
-    fromInput.innerText = timeEnd.hours + ':' + timeEnd.minutes; 
-  }  
-  timeStartG = timeStart; 
-  timeEndG = timeEnd;
-}
+    function changeRadius() {
+      let value = document.getElementById("change-radius").value;
+      changeRadiusInner(value);
+    }
+    function changeRadiusInner(value) {
+      heatmap.set("radius", value);
+    }
 
-async function controlToSlider(fromSlider, toSlider, toInput) {
-  const [from, to] = getParsed(fromSlider, toSlider);
-  fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider); 
-  let timeStart = calculateHourBasedOnMinutes(to); 
-  let timeEnd = calculateHourBasedOnMinutes(from);
-  setToggleAccessible(toSlider);
-  if (from <= to) {
-    toSlider.value = to;
-    toInput.innerText = to;  
-    toInput.innerText = timeStart.hours + ':' + timeStart.minutes; 
-  } else {  
-    toInput.innerText = timeEnd.hours + ':' + timeEnd.minutes; 
-    toSlider.value = from;
-  }  
-   
-  timeStartG = timeStart; 
-  timeEndG = timeEnd;
-}
+    const getLocationData = async url => {
+      const response = await fetch(url)
+      return response.json()
+    }
 
-function getParsed(currentFrom, currentTo) {
-  const from = parseInt(currentFrom.value, 10);
-  const to = parseInt(currentTo.value, 10);
-  return [from, to];
-}
+    function addInfoWindow(name, description) {
+      let infoWindow = new google.maps.InfoWindow({
+        content: `<h3> ${name} </h3>   <p> ${description} </p>`,
+      })
+      return infoWindow;
+    }
 
-function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
-    const rangeDistance = to.max-to.min;
-    const fromPosition = from.value - to.min;
-    const toPosition = to.value - to.min;
-    controlSlider.style.background = `linear-gradient(
+    function addMarker(building, map) {
+      let marker = new google.maps.Marker({
+        position: new google.maps.LatLng(building.position.lat, building.position.lng),
+        map: map,
+        title: building.name,
+      });
+
+      let infoWindow = addInfoWindow(building.name, building.description);
+
+      return { marker: marker, infoWindow: infoWindow, name: name }
+    }
+
+
+    function toggleHeatmap() {
+      heatmap.setMap(heatmap.getMap() ? null : map);
+    }
+
+    async function initMap() {
+
+      var glasgow = {
+        lat: 55.872883,
+        lng: -4.291279,
+      };
+
+      map = new google.maps.Map(
+        document.getElementById('map'), {
+        zoom: 17,
+        center: glasgow
+      });
+
+
+      let data = await getLocationData('http://localhost:3000/getlocations');
+      data = JSON.parse(data);
+      let markers = [];
+
+      for (i = 0; i < data.length; i++) {
+        let buildingOld = data[i];
+        buildingOld["Geolocation"] = buildingOld["Geolocation"].replace('{', '').replace('}', '').split(" ");
+        let buildingNew = {
+          name: buildingOld["Building Name"],
+          position: {
+            lat: parseFloat(buildingOld["Geolocation"][0]),
+            lng: parseFloat(buildingOld["Geolocation"][1]),
+          },
+          openingTimes: buildingOld["Opening Times"],
+          description: buildingOld["Description"],
+        }
+        buildings[i] = buildingNew;
+
+        markers.push(addMarker(buildingNew, map));
+      }
+
+
+      for (i = 0; i < markers.length; i++) {
+        let marker = markers[i];
+        marker.marker.addListener("click", () => {
+          console.log("click")
+          for (i = 0; i < markers.length; i++) {
+            let subMarker = markers[i].infoWindow;
+            subMarker.close();
+          }
+
+          marker.infoWindow.open({
+            anchor: marker.marker,
+            map,
+            ariaLabel: marker.name,
+          });
+        });
+      }
+      sendTimes();
+
+    }
+
+    var peopleAtLocation = [];
+    async function sendTimes() {
+      let whereToAdd = document.getElementById("profiles");
+      whereToAdd.innerHTML = ''
+      peopleAtLocation = [];
+      if (heatmap != null) {
+        heatmap.setMap(null);
+      }
+      for (let building in buildings) {
+        building = buildings[building];
+        let response = await sendTime(building.name);
+        peopleAtLocation.push({
+          building: building,
+          people: JSON.parse(response),
+          amount: JSON.parse(response).length,
+        });
+
+      }
+      console.log(peopleAtLocation);
+
+      let heatMapData = [];
+      for (k = 0; k < peopleAtLocation.length; k++) {
+        let currentBuilding = peopleAtLocation[k];
+        console.log(currentBuilding);
+        if (currentBuilding.amount != 0) {
+          heatMapData.push({
+            location: new google.maps.LatLng(currentBuilding.building.position.lat, currentBuilding.building.position.lng),
+            weight: currentBuilding.amount,
+          });
+        }
+      }
+
+
+      heatmap = new google.maps.visualization.HeatmapLayer({
+        data: heatMapData
+      });
+
+      heatmap.set("radius", document.getElementById("change-radius").value);
+      heatmap.setMap(map);
+
+
+    }
+    async function sendTime(building) {
+
+      let response = await fetch(`http://localhost:3000/gettime?hoursStart=${timeStartG.hours}&minutesStart=${timeStartG.minutes}&hoursEnd=${timeEndG.hours}&minutesEnd=${timeEndG.minutes}&building=${building}`);
+      return response.json();
+    }
+
+    function calculateHourBasedOnMinutes(value) {
+      let hours = parseInt(value / 60);
+      let minutes = value % 60;
+      if (hours != 0) {
+        minutes = value - hours * 60;
+      } else {
+        minutes = value;
+      }
+
+      if (hours == 24) {
+        hours = 0;
+      }
+
+
+      if (hours < 10 && hours >= 0) {
+        hours = '0' + hours.toString();
+      } else {
+        hours = hours.toString();
+      }
+      if (minutes < 10 && minutes >= 0) {
+        minutes = '0' + minutes.toString();
+      } else {
+        minutes = minutes.toString();
+      }
+
+      return { hours: hours, minutes: minutes }
+    }
+
+    async function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
+      const [from, to] = getParsed(fromInput, toInput);
+      fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+      let timeStart = calculateHourBasedOnMinutes(to);
+      let timeEnd = calculateHourBasedOnMinutes(from);
+      if (from > to) {
+        fromSlider.value = to;
+        fromInput.innerText = timeStart.hours + ':' + timeStart.minutes;
+      } else {
+        fromSlider.value = from;
+      }
+      timeStartG = timeStart;
+      timeEndG = timeEnd;
+    }
+
+    async function controlToInput(toSlider, fromInput, toInput, controlSlider) {
+      const [from, to] = getParsed(fromInput, toInput);
+      fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+      setToggleAccessible(toInput);
+      let timeStart = calculateHourBasedOnMinutes(to);
+      let timeEnd = calculateHourBasedOnMinutes(from);
+      if (from <= to) {
+        toSlider.value = to;
+        toInput.innerText = timeStart.hours + ':' + timeStart.minutes;
+      } else {
+        toInput.innerText = timeEnd.hours + ':' + timeEnd.minutes;
+
+      }
+      timeStartG = timeStart;
+      timeEndG = timeEnd;
+    }
+
+    async function controlFromSlider(fromSlider, toSlider, fromInput) {
+      const [from, to] = getParsed(fromSlider, toSlider);
+      fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+      let timeStart = calculateHourBasedOnMinutes(to);
+      let timeEnd = calculateHourBasedOnMinutes(from);
+      if (from > to) {
+        toSlider.value = to;
+        fromInput.innerText = timeStart.hours + ':' + timeStart.minutes;
+      } else {
+        let time = calculateHourBasedOnMinutes(from);
+        fromInput.innerText = timeEnd.hours + ':' + timeEnd.minutes;
+      }
+      timeStartG = timeStart;
+      timeEndG = timeEnd;
+    }
+
+    async function controlToSlider(fromSlider, toSlider, toInput) {
+      const [from, to] = getParsed(fromSlider, toSlider);
+      fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+      let timeStart = calculateHourBasedOnMinutes(to);
+      let timeEnd = calculateHourBasedOnMinutes(from);
+      setToggleAccessible(toSlider);
+      if (from <= to) {
+        toSlider.value = to;
+        toInput.innerText = to;
+        toInput.innerText = timeStart.hours + ':' + timeStart.minutes;
+      } else {
+        toInput.innerText = timeEnd.hours + ':' + timeEnd.minutes;
+        toSlider.value = from;
+      }
+
+      timeStartG = timeStart;
+      timeEndG = timeEnd;
+    }
+
+    function getParsed(currentFrom, currentTo) {
+      const from = parseInt(currentFrom.value, 10);
+      const to = parseInt(currentTo.value, 10);
+      return [from, to];
+    }
+
+    function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
+      const rangeDistance = to.max - to.min;
+      const fromPosition = from.value - to.min;
+      const toPosition = to.value - to.min;
+      controlSlider.style.background = `linear-gradient(
       to right,
       ${sliderColor} 0%,
-      ${sliderColor} ${(fromPosition)/(rangeDistance)*100}%,
-      ${rangeColor} ${((fromPosition)/(rangeDistance))*100}%,
-      ${rangeColor} ${(toPosition)/(rangeDistance)*100}%, 
-      ${sliderColor} ${(toPosition)/(rangeDistance)*100}%, 
+      ${sliderColor} ${(fromPosition) / (rangeDistance) * 100}%,
+      ${rangeColor} ${((fromPosition) / (rangeDistance)) * 100}%,
+      ${rangeColor} ${(toPosition) / (rangeDistance) * 100}%, 
+      ${sliderColor} ${(toPosition) / (rangeDistance) * 100}%, 
       ${sliderColor} 100%)`;
-}
+    }
 
-function setToggleAccessible(currentTarget) {
-  const toSlider = document.querySelector('#toSlider');
-  if (Number(currentTarget.value) <= 0 ) {
-    toSlider.style.zIndex = 2;
-  } else {
-    toSlider.style.zIndex = 0;
-  }
-}
+    function setToggleAccessible(currentTarget) {
+      const toSlider = document.querySelector('#toSlider');
+      if (Number(currentTarget.value) <= 0) {
+        toSlider.style.zIndex = 2;
+      } else {
+        toSlider.style.zIndex = 0;
+      }
+    }
 
-const fromSlider = document.querySelector('#fromSlider');
-const toSlider = document.querySelector('#toSlider');
-const fromInput = document.querySelector('#fromInput');
-const toInput = document.querySelector('#toInput');
-fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
-setToggleAccessible(toSlider);
+    const fromSlider = document.querySelector('#fromSlider');
+    const toSlider = document.querySelector('#toSlider');
+    const fromInput = document.querySelector('#fromInput');
+    const toInput = document.querySelector('#toInput');
+    fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+    setToggleAccessible(toSlider);
 
-fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInput);
-toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInput);
-fromInput.oninput = () => controlFromInput(fromSlider, fromInput, toInput, toSlider);
-toInput.oninput = () => controlToInput(toSlider, fromInput, toInput, toSlider);
-</script>
+    fromSlider.oninput = () => controlFromSlider(fromSlider, toSlider, fromInput);
+    toSlider.oninput = () => controlToSlider(fromSlider, toSlider, toInput);
+    fromInput.oninput = () => controlFromInput(fromSlider, fromInput, toInput, toSlider);
+    toInput.oninput = () => controlToInput(toSlider, fromInput, toInput, toSlider);
+  </script>
+</body>
+
+</html>
