@@ -580,7 +580,15 @@ function nodeActive(a) {
         $GP.info_data.html(e.join("<br/>"))
     }
     $GP.info_data.show();
-    $GP.info_p.html("Connections:");
+    var soc_name = $GP.info_name[0].innerText;
+    if (soc_name[0] == ' ') {
+        soc_name = soc_name.slice(1)
+    }
+    //console.log(soc_name);
+    //console.log(soc_members[soc_name]);
+    members = soc_members[soc_name];
+    $GP.info_p.html('Society Members:<br><br><p>' + members.toString() + '</p><br><br>Connections:')
+    //$GP.info_p.html("Connections:");
     $GP.info.animate({width:'show'},350);
 	$GP.info_donnees.hide();
 	$GP.info_donnees.show();
