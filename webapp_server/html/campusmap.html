@@ -8,17 +8,37 @@
   </head>
 
   
-<style> 
+<style>  
+ 
+body { 
+  margin: 2rem;
+}
 #map {
     height: 400px; 
     width: 100%;  
-   }  
+   }   
+    
+#update-btn { 
+  position: relative; 
+  bottom : 3rem;
+}  
+ 
+#map-funcs { 
+  margin: 1rem;
+}
+   
+
+#change-radius { 
+  max-width: 20rem; 
+  position: relative; 
+  top : 0.25rem;
+}
     
 .range_container {
   display: flex;
   flex-direction: column;
   width: 70%;
-  margin: 2.5% auto;
+  margin: 3rem auto 1rem auto;
 }
 
 .sliders_control {
@@ -92,12 +112,29 @@ input[type="range"] {
   height: 0;
   z-index: 1;
 }
-</style> 
-<h3>Campus Map</h3>  
-<button onclick="sendTimes()">Click to Update</button> 
-<button id = "toggle-heatmap">Toggle Heatmap</button> 
-<input id = "change-radius" type="range" value="20" min="0" max="100" oninput = "changeRadius()"/> 
-<div class="dropdown">
+</style>  
+<div class = "text-center">
+  <h2>Campus Map</h2>  
+</div>
+<div class="range_container">
+    <div class="sliders_control">
+        <input id="fromSlider" type="range" value="0" min="0" step = "15" max="1439"/>
+        <input id="toSlider" type="range" value="1439" min="0" step = "15" max="1439"/>
+    </div>
+    <div class="form_control">
+        <div class="form_control_container">
+            <div class="form_control_container__time">Time Start</div>
+            <p class="form_control_container__time__input" id="fromInput">00:00</p>
+        </div>
+        <div class="form_control_container">
+            <div class="form_control_container__time">Time End</div> 
+            <p class="form_control_container__time__input" id="toInput">23:59</p>
+        </div>
+    </div>
+</div>  
+<div id = "update-btn" class="text-center"> 
+  <button class = "btn btn-outline-secondary" onclick="sendTimes()">Click to Update Map</button>  
+  <div class="dropdown m-3">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Locations
     </button>
@@ -118,25 +155,14 @@ input[type="range"] {
         <a value = "13" class="dropdown-item" href="#">Kelvin Building</a>
     </div>
   </div>
-<div class="range_container">
-    <div class="sliders_control">
-        <input id="fromSlider" type="range" value="0" min="0" step = "15" max="1439"/>
-        <input id="toSlider" type="range" value="1439" min="0" step = "15" max="1439"/>
-    </div>
-    <div class="form_control">
-        <div class="form_control_container">
-            <div class="form_control_container__time">Min</div>
-            <p class="form_control_container__time__input" id="fromInput">00:00</p>
-        </div>
-        <div class="form_control_container">
-            <div class="form_control_container__time">Max</div> 
-            <p class="form_control_container__time__input" id="toInput">23:59</p>
-        </div>
-    </div>
-</div> 
+</div>  
+<div class = "container text-center"id="map-func">   
+    <button class = "col m-2 btn btn-secondary" id = "toggle-heatmap">Toggle Heatmap</button>  
+    <input class = "col m-2" id = "change-radius" type="range" value="20" min="0" max="100" oninput = "changeRadius()"/>  
+</div>
 <div id="map">  
 </div>   
-<div class = "container text-center">  
+<div class = "container text-center m-3">  
     <div id = "profiles"  class="row">
       </div>
 </div>
@@ -161,7 +187,7 @@ input[type="range"] {
   document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);  
   document.getElementById("change-radius").addEventListener("click", changeRadius);
   document.querySelectorAll(".dropdown-item").forEach((element) => {  
-    let value = element.value;
+    console.log(element)
     element.addEventListener("click" , (element) => pickLocation(element.target.attributes.value.value))}); 
      
   function pickLocation(value) {     
@@ -177,16 +203,14 @@ input[type="range"] {
                 let person = currentBuilding.people[k];  
                 console.log(person);
                 let newNode = document.createElement("div"); 
-                newNode.innerHTML = `<div class="card" style="width: 18rem;">
+                newNode.innerHTML = `<div class="card m-1" style="width: 18rem;">
   <img class="card-img-top" src="..." alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">${person.name}</h5>
-    <p class="card-text">${person.timeStart} - ${person.timeEnd} </p> 
+    <p class="card-text">${person.time} </p> 
     <p class = "card-text"><ul>  
-        <li> Age : ${person.age} </li> 
-        <li> Suject : ${person.subject} </li>
+        <li> Location : ${person.location} </li> 
         </ul></p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
   </div>
 </div>`  
                 newNode.setAttribute("class" , "col");
@@ -311,11 +335,13 @@ input[type="range"] {
             let heatMapData = [];
         for (k = 0 ; k  < peopleAtLocation.length ; k++) { 
             let currentBuilding = peopleAtLocation[k];   
-            console.log(currentBuilding);
+            console.log(currentBuilding); 
+            if (currentBuilding.amount != 0) {
             heatMapData.push({ 
                 location: new google.maps.LatLng(currentBuilding.building.position.lat , currentBuilding.building.position.lng),  
                 weight:currentBuilding.amount, 
-            });
+            }); 
+          }
         }   
          
          

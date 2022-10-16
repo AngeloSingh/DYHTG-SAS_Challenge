@@ -55,15 +55,9 @@ app.get("/gettime" , (request , response) => {
  
                 if ( ((start <= timeStart && timeStart <= end) || (start <= timeEnd && timeEnd <= end) || (start <= timeStart && timeStart <= end &&timeEnd >=start && timeEnd <= end) || (timeStart <= start && timeEnd >= end)) && jsonString[i].Location == building) { 
                     let person = { 
-                        timeStart : timeStart,
-                        timeEnd : timeEnd, 
+                        time : time.join("-"), 
                         name : jsonString[i].Name, 
                         location : jsonString[i].Location,  
-                        age : jsonString[i].Age, 
-                        gender : jsonString[i].Gender, 
-                        subject : jsonString[i].Subject, 
-                        height : jsonString[i].Height 
-
                     } 
                     results.push(person);
                 }
