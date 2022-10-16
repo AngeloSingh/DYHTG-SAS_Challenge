@@ -178,8 +178,8 @@ input[type="range"] {
 
 <script>   
 
-  var timeStart; 
-  var timeEndG;  
+  var timeStartG = {hours : 0 , minutes : 0}; 
+  var timeEndG = {hours : 23 , minutes : 59} 
   var buildings = new Object(); 
   var map; 
   var heatmap; 
@@ -308,7 +308,9 @@ input[type="range"] {
                 ariaLabel: marker.name,
         });
     }); 
-    }    
+    }  
+    sendTimes();
+         
     }  
        
     var peopleAtLocation = []; 

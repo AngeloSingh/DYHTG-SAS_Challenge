@@ -28,6 +28,7 @@ app.get("/getlocations" , (request, response) => {
       }); 
     }); 
       
+      
      
 app.get("/gettime" , (request , response) => {   
     let minutesStart = request.query.minutesStart;
