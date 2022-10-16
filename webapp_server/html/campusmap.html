@@ -197,7 +197,6 @@
     document.getElementById("toggle-heatmap").addEventListener("click", toggleHeatmap);
     document.getElementById("change-radius").addEventListener("click", changeRadius);
     document.querySelectorAll(".dropdown-item").forEach((element) => {
-      console.log(element)
       element.addEventListener("click", (element) => pickLocation(element.target.attributes.value.value))
     });
 
@@ -212,7 +211,6 @@
         if (i == value) {
           for (k = 0; k < currentBuilding.amount; k++) {
             let person = currentBuilding.people[k];
-            console.log(person);
             let newNode = document.createElement("div");
             newNode.innerHTML = `<div class="card m-1" style="width: 18rem;">
   <div class="card-body">
@@ -307,7 +305,6 @@
       for (i = 0; i < markers.length; i++) {
         let marker = markers[i];
         marker.marker.addListener("click", () => {
-          console.log("click")
           for (i = 0; i < markers.length; i++) {
             let subMarker = markers[i].infoWindow;
             subMarker.close();
@@ -342,12 +339,10 @@
         });
 
       }
-      console.log(peopleAtLocation);
 
       let heatMapData = [];
       for (k = 0; k < peopleAtLocation.length; k++) {
         let currentBuilding = peopleAtLocation[k];
-        console.log(currentBuilding);
         if (currentBuilding.amount != 0) {
           heatMapData.push({
             location: new google.maps.LatLng(currentBuilding.building.position.lat, currentBuilding.building.position.lng),
